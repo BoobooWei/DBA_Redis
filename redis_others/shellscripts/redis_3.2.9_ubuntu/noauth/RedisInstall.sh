@@ -33,7 +33,7 @@ exec_install(){
 	m)
 		./redis-master-install $masterip  $masterport  ;;
 	s)
-		./redis-slave-install $slaveip $slaveport $masterip $slaveport  ;;
+		./redis-slave-install $slaveip $slaveport $masterip $masterport  ;;
 	end)
 		break;;
 	*)
