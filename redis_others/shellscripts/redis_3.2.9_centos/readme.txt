@@ -6,7 +6,7 @@
 
 
 将脚本传到 /root/家目录下
-#初始化脚本，例如从windows转到linux的文件格式问题
+#初始化安装必要的软件包，添加可执行权限
 bash init_env.sh 
 #安装
 bash RedisInstall.sh 
