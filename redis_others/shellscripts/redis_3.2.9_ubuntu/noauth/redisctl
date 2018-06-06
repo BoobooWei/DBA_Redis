@@ -1,0 +1,89 @@
+#!/bin/bash
+#Usage: redisctl start|stop|status port num
+# redisctl start 6379 
+
+start_sentinel(){
+	nohup /alidata/redis/src/redis-sentinel /alidata/redis/conf/sentinel${1}.conf &> /tmp/sentinel.log &
+}
+
+
+# 启动单实例
+start_redis(){
+	nohup /alidata/redis/src/redis-server /alidata/redis/conf/redis${1}.conf &> /dev/null &
+}
+
+# 查看所有实例的守护进程
+status_redis(){
+count=`ps -ef|grep "redis-server" | grep -v 'grep'|wc -l`
+if [[ $count == 1 ]] ;then echo redis server is running ;else echo redis server is not running;fi
+}
+
+# 停止所有实例
+stop_redis(){
+for i in `ps -ef|grep "redis-server" | grep -v 'grep' | awk '{print $2}'`
+do
+	kill -9 $i
+done
+}
+
+# 停止sentinel
+stop_sentinel(){
+for i in `ps -ef|grep redis-sentinel | grep -v 'grep' | awk '{print $2}'`
+do
+	kill -9 $i
+done  
+}
+
+# 启动consul
+start_consul(){
+	# 启动服务
+	nohup /bin/consul agent -dev  -config-dir=/alidata/consul/conf &> /alidata/consul/consul.log &
+#	dig @localhost -p 8600 redis.service.consul.
+	service dnsmasq restart
+# 	dig @localhost -p 53 redis.service.consul.
+}
+
+stop_consul(){
+	service dnsmasq stop
+	for i in `ps -ef|grep consul | grep -v 'grep' | awk '{print $2}'`
+	do
+        	kill -9 $i
+	done
+}
+
+if [[ $1 == 'redis' ]]
+then 
+	if [[ $2 == 'start' ]] 
+	then 
+		start_redis $3 
+	elif [[ $2 == 'status' ]] 
+	then 
+		status_redis $3
+	elif [[ $2 == 'restart' ]]
+	then
+		stop_redis
+		start_redis $3
+	elif [[ $2 == 'stop' ]] 
+		then stop_redis
+	fi
+elif [[ $1 == 'sentinel' ]]
+then
+	if [[ $2 == 'start' ]] 
+	then 
+		start_sentinel $3 
+        elif [[ $2 == 'stop' ]] 
+	then 
+		stop_sentinel
+        fi
+elif [[ $1 == 'consul' ]]
+then
+	if [[ $2 == 'start' ]]
+	then
+		start_consul
+	elif [[ $2 == 'stop' ]]
+	then
+		stop_consul
+	fi
+else
+	echo "Usage: ./redisctl redis start|stop|status|restart port ; ./redisctl sentinel start|stop port"
+fi

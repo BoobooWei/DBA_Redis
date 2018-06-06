@@ -4,13 +4,9 @@
 # masterip=`ip addr | sed -n  '/eth0/,+1p' |grep "inet"|awk '{print $2}'|awk -F '/' '{print $1}'`
 
 init_env(){
-	cd /root/
-	yum install -y dos2unix &> /dev/null
-	dos2unix -n redisctl-3.2.9.sh redisctl &> /dev/null
-	dos2unix -n redis-3.2.9.sh redis-master-install &> /dev/null
-	dos2unix -n redis-3.2.9-slave.sh redis-slave-install &> /dev/null
-	dos2unix -n redis-sentinel-3.2.9.sh redis-sentinel-install &> /dev/null
-	dos2unix -n consul-0.8.5.sh consul-install &> /dev/null
+	apt-get install -y unzip make gcc
+	for i in `ps -ef|grep redi[s]|awk '{print $2}'`;do kill -9 $i;done
+	rm -rf /alidata/redis
 	for i in redisctl redis-master-install redis-slave-install redis-sentinel-install consul-install
 	do
 		chmod a+x $i &> /dev/null
@@ -36,9 +32,9 @@ exec_install(){
 	read -p 'Install master or slave or end (m/s/end):' an
 	case  $an in
 	m)
-		/root/redis-master-install $masterip  $masterport $masterpassword ;;
+		./redis-master-install $masterip  $masterport $masterpassword ;;
 	s)
-		/root/redis-slave-install $slaveip $slaveport $masterip $slaveport $masterpassword ;;
+		./redis-slave-install $slaveip $slaveport $masterip $masterport $masterpassword ;;
 	end)
 		break;;
 	*)
@@ -51,7 +47,7 @@ sentinel_config(){
 	case $bn in
 	yes) 
 		read -p 'plz input sentinel port:' sentinelport;
-		/root/redis-sentinel-install $sentinelport $masterip $masterport $masterpassword;;
+		./redis-sentinel-install $sentinelport $masterip $masterport $masterpassword;;
 	no)
 		break;;
 	*)
@@ -63,7 +59,7 @@ consul_install(){
 	read -p 'install consul? (yes or no)': cn
 	case $cn in 
 	yes)
-		/root/consul-install $masterip $masterport $masterpassword $slaveip $slaveport;;
+		./consul-install $masterip $masterport $masterpassword $slaveip $slaveport;;
 	no)
 		break;;
 	*)
@@ -87,7 +83,7 @@ main(){
 		consul_install
 	done
 }
-		
+
 main
 # 启动redis服务
 # 启动sentienl服务
