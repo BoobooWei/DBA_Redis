@@ -1,0 +1,5 @@
+[root@sh_01 conf]# ps -ef|grep consul
+root     22522     1  1 12:26 ?        00:00:07 /bin/consul agent -dev -config-dir=/alidata/consul/conf
+root     23049 17295  0 12:33 pts/1    00:00:00 tail -f consul.log
+root     23362 23113  0 12:37 pts/2    00:00:00 grep --color=auto consul
+[root@sh_01 conf]# kill -SIGHUP 22522
