@@ -1,214 +1,265 @@
-# redisÏê½â
+# redisè¯¦è§£
 
 [TOC]
 
-> ¸ù¾İ¡¶redisÉè¼ÆºÍÊµÏÖ¡·»Æ½¡ºêÖøÑ§Ï°±Ê¼Ç
+> æ ¹æ®ã€Šredisè®¾è®¡å’Œå®ç°ã€‹é»„å¥å®è‘—å­¦ä¹ ç¬”è®°
 >
 > http://redisbook.com/
 
-## »ù±¾ÅäÖÃ
+## åŸºæœ¬é…ç½®
 
 ```shell
-daemonize yes #ÊÇ·ñÒÔºóÌ¨½ø³ÌÔËĞĞ
-pidfile /var/run/redis/redis-server.pid    #pidÎÄ¼şÎ»ÖÃ
-port 6379	# ¼àÌı¶Ë¿ÚºÅ£¬Ä¬ÈÏÎª 6379£¬Èç¹ûÄãÉèÎª 0 £¬redis ½«²»ÔÚ socket ÉÏ¼àÌıÈÎºÎ¿Í»§¶ËÁ¬½Ó¡£
-bind 127.0.0.1   #°ó¶¨µØÖ·£¬ÈçÍâÍøĞèÒªÁ¬½Ó£¬ÉèÖÃ0.0.0.0
-timeout 300     #Á¬½Ó³¬Ê±Ê±¼ä£¬µ¥Î»Ãë
-loglevel notice  #ÈÕÖ¾¼¶±ğ£¬·Ö±ğÓĞ£º
-# debug £ºÊÊÓÃÓÚ¿ª·¢ºÍ²âÊÔ
-# verbose £º¸üÏêÏ¸ĞÅÏ¢
-# notice £ºÊÊÓÃÓÚÉú²ú»·¾³
-# warning £ºÖ»¼ÇÂ¼¾¯¸æ»ò´íÎóĞÅÏ¢
-logfile /var/log/redis/redis-server.log   #ÈÕÖ¾ÎÄ¼şÎ»ÖÃ
-syslog-enabled no    #ÊÇ·ñ½«ÈÕÖ¾Êä³öµ½ÏµÍ³ÈÕÖ¾
-databases 16	#ÉèÖÃÊı¾İ¿âÊıÁ¿£¬Ä¬ÈÏÊı¾İ¿âÎª0
-hz 10 # redisÄÚ²¿Ê±¼äÊÂ¼şÃ¿1Ãë10´ÎÑ­»·
+daemonize yes #æ˜¯å¦ä»¥åå°è¿›ç¨‹è¿è¡Œ
+pidfile /var/run/redis/redis-server.pid    #pidæ–‡ä»¶ä½ç½®
+port 6379	# ç›‘å¬ç«¯å£å·ï¼Œé»˜è®¤ä¸º 6379ï¼Œå¦‚æœä½ è®¾ä¸º 0 ï¼Œredis å°†ä¸åœ¨ socket ä¸Šç›‘å¬ä»»ä½•å®¢æˆ·ç«¯è¿æ¥ã€‚
+bind 127.0.0.1   #ç»‘å®šåœ°å€ï¼Œå¦‚å¤–ç½‘éœ€è¦è¿æ¥ï¼Œè®¾ç½®0.0.0.0
+timeout 300     #è¿æ¥è¶…æ—¶æ—¶é—´ï¼Œå•ä½ç§’
+loglevel notice  #æ—¥å¿—çº§åˆ«ï¼Œåˆ†åˆ«æœ‰ï¼š
+# debug ï¼šé€‚ç”¨äºå¼€å‘å’Œæµ‹è¯•
+# verbose ï¼šæ›´è¯¦ç»†ä¿¡æ¯
+# notice ï¼šé€‚ç”¨äºç”Ÿäº§ç¯å¢ƒ
+# warning ï¼šåªè®°å½•è­¦å‘Šæˆ–é”™è¯¯ä¿¡æ¯
+logfile /var/log/redis/redis-server.log   #æ—¥å¿—æ–‡ä»¶ä½ç½®
+syslog-enabled no    #æ˜¯å¦å°†æ—¥å¿—è¾“å‡ºåˆ°ç³»ç»Ÿæ—¥å¿—
+databases 16	#è®¾ç½®æ•°æ®åº“æ•°é‡ï¼Œé»˜è®¤æ•°æ®åº“ä¸º0
+hz 10 # rediså†…éƒ¨æ—¶é—´äº‹ä»¶æ¯1ç§’10æ¬¡å¾ªç¯
 ```
 
-## °²È«
+## å®‰å…¨
 
 ```shell
-requirepass foobared # ĞèÒªÃÜÂë
-rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52 #Èç¹û¹«¹²»·¾³,¿ÉÒÔÖØÃüÃû²¿·ÖÃô¸ĞÃüÁî Èçconfig
+requirepass foobared # éœ€è¦å¯†ç 
+rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52 #å¦‚æœå…¬å…±ç¯å¢ƒ,å¯ä»¥é‡å‘½åéƒ¨åˆ†æ•æ„Ÿå‘½ä»¤ å¦‚config
 ```
 
-## RDB¿ìÕÕ
+## RDBå¿«ç…§
 
 ```shell
-save 900 1 #Ë¢ĞÂ¿ìÕÕµ½Ó²ÅÌÖĞ£¬±ØĞëÂú×ãÁ½ÕßÒªÇó²Å»á´¥·¢£¬¼´900ÃëÖ®ºóÖÁÉÙ1¸ö¹Ø¼ü×Ö·¢Éú±ä»¯¡£
-save 300 10 #±ØĞëÊÇ300ÃëÖ®ºóÖÁÉÙ10¸ö¹Ø¼ü×Ö·¢Éú±ä»¯¡£
-save 60 10000 #±ØĞëÊÇ60ÃëÖ®ºóÖÁÉÙ10000¸ö¹Ø¼ü×Ö·¢Éú±ä»¯¡£
-stop-writes-on-bgsave-error yes #ºóÌ¨´æ´¢´íÎóÍ£Ö¹Ğ´¡£
-rdbcompression yes #Ê¹ÓÃLZFÑ¹ËõrdbÎÄ¼ş¡£
-rdbchecksum yes #´æ´¢ºÍ¼ÓÔØrdbÎÄ¼şÊ±Ğ£Ñé¡£
-dbfilename dump.rdb #ÉèÖÃrdbÎÄ¼şÃû¡£
-dir ./ #ÉèÖÃ¹¤×÷Ä¿Â¼£¬rdbÎÄ¼ş»áĞ´Èë¸ÃÄ¿Â¼¡£
+save 900 1 #åˆ·æ–°å¿«ç…§åˆ°ç¡¬ç›˜ä¸­ï¼Œå¿…é¡»æ»¡è¶³ä¸¤è€…è¦æ±‚æ‰ä¼šè§¦å‘ï¼Œå³900ç§’ä¹‹åè‡³å°‘1ä¸ªå…³é”®å­—å‘ç”Ÿå˜åŒ–ã€‚
+save 300 10 #å¿…é¡»æ˜¯300ç§’ä¹‹åè‡³å°‘10ä¸ªå…³é”®å­—å‘ç”Ÿå˜åŒ–ã€‚
+save 60 10000 #å¿…é¡»æ˜¯60ç§’ä¹‹åè‡³å°‘10000ä¸ªå…³é”®å­—å‘ç”Ÿå˜åŒ–ã€‚
+stop-writes-on-bgsave-error yes #åå°å­˜å‚¨é”™è¯¯åœæ­¢å†™ã€‚
+rdbcompression yes #ä½¿ç”¨LZFå‹ç¼©rdbæ–‡ä»¶ã€‚
+rdbchecksum yes #å­˜å‚¨å’ŒåŠ è½½rdbæ–‡ä»¶æ—¶æ ¡éªŒã€‚
+dbfilename dump.rdb #è®¾ç½®rdbæ–‡ä»¶åã€‚
+dir ./ #è®¾ç½®å·¥ä½œç›®å½•ï¼Œrdbæ–‡ä»¶ä¼šå†™å…¥è¯¥ç›®å½•ã€‚
 ```
 
-## AOFÅäÖÃ
+## AOFé…ç½®
 
 ```shell
-appendonly no #ÊÇ·ñ½öÒªÈÕÖ¾
-appendfsync no # ÏµÍ³»º³å,Í³Ò»Ğ´,ËÙ¶È¿ì
-appendfsync always # ÏµÍ³²»»º³å,Ö±½ÓĞ´,Âı,¶ªÊ§Êı¾İÉÙ
-appendfsync everysec #ÕÛÖÔ,Ã¿ÃëĞ´1´Î
+appendonly no #æ˜¯å¦ä»…è¦æ—¥å¿—
+appendfsync no # ç³»ç»Ÿç¼“å†²,ç»Ÿä¸€å†™,é€Ÿåº¦å¿«
+appendfsync always # ç³»ç»Ÿä¸ç¼“å†²,ç›´æ¥å†™,æ…¢,ä¸¢å¤±æ•°æ®å°‘
+appendfsync everysec #æŠ˜è¡·,æ¯ç§’å†™1æ¬¡
 
-no-appendfsync-on-rewrite no #Îªyes,ÔòÆäËûÏß³ÌµÄÊı¾İ·ÅÄÚ´æÀï,ºÏ²¢Ğ´Èë(ËÙ¶È¿ì,ÈİÒ×¶ªÊ§µÄ¶à)
-auto-AOF-rewrite-percentage 100 #µ±Ç°aofÎÄ¼şÊÇÉÏ´ÎÖØĞ´ÊÇ´óN%Ê±ÖØĞ´(#µ±AOFÈÕÖ¾ÎÄ¼ş¼´½«Ôö³¤µ½Ö¸¶¨°Ù·Ö±ÈÊ±£¬redisÍ¨¹ıµ÷ÓÃBGREWRITEAOFÊÇ·ñ×Ô¶¯ÖØĞ´AOFÈÕÖ¾ÎÄ¼ş¡£)
-auto-AOF-rewrite-min-size 64mb #aofÖØĞ´ÖÁÉÙÒª´ïµ½µÄ´óĞ¡
+no-appendfsync-on-rewrite no #ä¸ºyes,åˆ™å…¶ä»–çº¿ç¨‹çš„æ•°æ®æ”¾å†…å­˜é‡Œ,åˆå¹¶å†™å…¥(é€Ÿåº¦å¿«,å®¹æ˜“ä¸¢å¤±çš„å¤š)
+auto-AOF-rewrite-percentage 100 #å½“å‰aofæ–‡ä»¶æ˜¯ä¸Šæ¬¡é‡å†™æ˜¯å¤§N%æ—¶é‡å†™(#å½“AOFæ—¥å¿—æ–‡ä»¶å³å°†å¢é•¿åˆ°æŒ‡å®šç™¾åˆ†æ¯”æ—¶ï¼Œredisé€šè¿‡è°ƒç”¨BGREWRITEAOFæ˜¯å¦è‡ªåŠ¨é‡å†™AOFæ—¥å¿—æ–‡ä»¶ã€‚)
+auto-AOF-rewrite-min-size 64mb #aofé‡å†™è‡³å°‘è¦è¾¾åˆ°çš„å¤§å°
 ```
 
-## Ö÷´ÓÅäÖÃ
+## ä¸»ä»é…ç½®
 
 ```shell
-slaveof <masterip> <masterport> ÉèÎªÄ³Ì¨»úÆ÷µÄ´Ó·şÎñÆ÷
-masterauth <master-password> Á¬½ÓÖ÷·şÎñÆ÷µÄÃÜÂë
-slave-serve-stale-data yes # µ±Ö÷´Ó¶Ï¿ª»òÕıÔÚ¸´ÖÆÖĞ,´Ó·şÎñÆ÷ÊÇ·ñÓ¦´ğ
-slave-read-only yes #´Ó·şÎñÆ÷Ö»¶Á
-repl-ping-slave-period 10 #´ÓpingÖ÷µÄÊ±¼ä¼ä¸ô,ÃëÎªµ¥Î»
-repl-timeout 60 #Ö÷´Ó³¬Ê±Ê±¼ä(³¬Ê±ÈÏÎª¶ÏÏßÁË),Òª±Èperiod´ó
-slave-priority 100 #Èç¹ûmaster²»ÄÜÔÙÕı³£¹¤×÷£¬ÄÇÃ´»áÔÚ¶à¸öslaveÖĞ£¬Ñ¡ÔñÓÅÏÈÖµ×îĞ¡µÄÒ»¸öslaveÌáÉıÎªmaster£¬ÓÅÏÈÖµÎª0±íÊ¾²»ÄÜÌáÉıÎªmaster¡£
+slaveof <masterip> <masterport> è®¾ä¸ºæŸå°æœºå™¨çš„ä»æœåŠ¡å™¨
+masterauth <master-password> è¿æ¥ä¸»æœåŠ¡å™¨çš„å¯†ç 
+slave-serve-stale-data yes # å½“ä¸»ä»æ–­å¼€æˆ–æ­£åœ¨å¤åˆ¶ä¸­,ä»æœåŠ¡å™¨æ˜¯å¦åº”ç­”
+slave-read-only yes #ä»æœåŠ¡å™¨åªè¯»
+repl-ping-slave-period 10 #ä»pingä¸»çš„æ—¶é—´é—´éš”,ç§’ä¸ºå•ä½
+repl-timeout 60 #ä¸»ä»è¶…æ—¶æ—¶é—´(è¶…æ—¶è®¤ä¸ºæ–­çº¿äº†),è¦æ¯”periodå¤§
+slave-priority 100 #å¦‚æœmasterä¸èƒ½å†æ­£å¸¸å·¥ä½œï¼Œé‚£ä¹ˆä¼šåœ¨å¤šä¸ªslaveä¸­ï¼Œé€‰æ‹©ä¼˜å…ˆå€¼æœ€å°çš„ä¸€ä¸ªslaveæå‡ä¸ºmasterï¼Œä¼˜å…ˆå€¼ä¸º0è¡¨ç¤ºä¸èƒ½æå‡ä¸ºmasterã€‚
 
-repl-disable-tcp-nodelay no #Ö÷¶ËÊÇ·ñºÏ²¢Êı¾İ,´ó¿é·¢ËÍ¸øslave
-slave-priority 100 ´Ó·şÎñÆ÷µÄÓÅÏÈ¼¶,µ±Ö÷·ş¹ÒÁË,»á×Ô¶¯Ìôslave priority×îĞ¡µÄÎªÖ÷·ş
+repl-disable-tcp-nodelay no #ä¸»ç«¯æ˜¯å¦åˆå¹¶æ•°æ®,å¤§å—å‘é€ç»™slave
+slave-priority 100 ä»æœåŠ¡å™¨çš„ä¼˜å…ˆçº§,å½“ä¸»æœæŒ‚äº†,ä¼šè‡ªåŠ¨æŒ‘slave priorityæœ€å°çš„ä¸ºä¸»æœ
 ```
 
-## ÏŞÖÆ
+## é™åˆ¶
 
 ```shell
-maxclients 10000 #×î´óÁ¬½ÓÊı
-maxmemory <bytes> #×î´óÊ¹ÓÃÄÚ´æ
+maxclients 10000 #æœ€å¤§è¿æ¥æ•°
+maxmemory <bytes> #æœ€å¤§ä½¿ç”¨å†…å­˜
 
-maxmemory-policy volatile-lru #ÄÚ´æµ½¼«ÏŞºóµÄ´¦Àí
-volatile-lru -> LRUËã·¨É¾³ı¹ıÆÚkey
-allkeys-lru -> LRUËã·¨É¾³ıkey(²»Çø·Ö¹ı²»¹ıÆÚ)
-volatile-random -> Ëæ»úÉ¾³ı¹ıÆÚkey
-allkeys-random -> Ëæ»úÉ¾³ıkey(²»Çø·Ö¹ı²»¹ıÆÚ)
-volatile-ttl -> É¾³ı¿ì¹ıÆÚµÄkey
-noeviction -> ²»É¾³ı,·µ»Ø´íÎóĞÅÏ¢
+maxmemory-policy volatile-lru #å†…å­˜åˆ°æé™åçš„å¤„ç†
+volatile-lru -> LRUç®—æ³•åˆ é™¤è¿‡æœŸkey
+allkeys-lru -> LRUç®—æ³•åˆ é™¤key(ä¸åŒºåˆ†è¿‡ä¸è¿‡æœŸ)
+volatile-random -> éšæœºåˆ é™¤è¿‡æœŸkey
+allkeys-random -> éšæœºåˆ é™¤key(ä¸åŒºåˆ†è¿‡ä¸è¿‡æœŸ)
+volatile-ttl -> åˆ é™¤å¿«è¿‡æœŸçš„key
+noeviction -> ä¸åˆ é™¤,è¿”å›é”™è¯¯ä¿¡æ¯
 
-#½âÊÍ LRU ttl¶¼ÊÇ½üËÆËã·¨,¿ÉÒÔÑ¡N¸ö,ÔÙ±È½Ï×îÊÊÒËTÌß³öµÄÊı¾İ
+#è§£é‡Š LRU ttléƒ½æ˜¯è¿‘ä¼¼ç®—æ³•,å¯ä»¥é€‰Nä¸ª,å†æ¯”è¾ƒæœ€é€‚å®œTè¸¢å‡ºçš„æ•°æ®
 maxmemory-samples 3
 ```
 
-## Âı²éÑ¯
+## æ…¢æŸ¥è¯¢
 
 ```shell
-slowlog-log-slower-than 10000 #¼ÇÂ¼ÏìÓ¦Ê±¼ä´óÓÚ10000Î¢ÃëµÄÂı²éÑ¯
-slowlog-max-len 128 # ×î¶à¼ÇÂ¼128Ìõ
+slowlog-log-slower-than 10000 #è®°å½•å“åº”æ—¶é—´å¤§äº10000å¾®ç§’çš„æ…¢æŸ¥è¯¢
+slowlog-max-len 128 # æœ€å¤šè®°å½•128æ¡
 ```
 
 
-## ¸ß¼¶ÅäÖÃ
+## é«˜çº§é…ç½®
 
 ```shell
-hash-max-zipmap-entries 512   #¹şÏ£±íÖĞÔªËØ£¨ÌõÄ¿£©×Ü¸öÊı²»³¬¹ıÉè¶¨ÊıÁ¿Ê±£¬²ÉÓÃÏßĞÔ½ô´Õ¸ñÊ½´æ´¢À´½ÚÊ¡¿Õ¼ä
-hash-max-zipmap-value 64     #¹şÏ£±íÖĞÃ¿¸övalueµÄ³¤¶È²»³¬¹ı¶àÉÙ×Ö½ÚÊ±£¬²ÉÓÃÏßĞÔ½ô´Õ¸ñÊ½´æ´¢À´½ÚÊ¡¿Õ¼ä
-list-max-ziplist-entries 512  #listÊı¾İÀàĞÍ¶àÉÙ½ÚµãÒÔÏÂ»á²ÉÓÃÈ¥Ö¸ÕëµÄ½ô´Õ´æ´¢¸ñÊ½
-list-max-ziplist-value 64    #listÊı¾İÀàĞÍ½ÚµãÖµ´óĞ¡Ğ¡ÓÚ¶àÉÙ×Ö½Ú»á²ÉÓÃ½ô´Õ´æ´¢¸ñÊ½
-set-max-intset-entries 512   #setÊı¾İÀàĞÍÄÚ²¿Êı¾İÈç¹ûÈ«²¿ÊÇÊıÖµĞÍ£¬ÇÒ°üº¬¶àÉÙ½ÚµãÒÔÏÂ»á²ÉÓÃ½ô´Õ¸ñÊ½´æ´¢
-activerehashing yes        #ÊÇ·ñ¼¤»îÖØÖÃ¹şÏ£
+hash-max-zipmap-entries 512   #å“ˆå¸Œè¡¨ä¸­å…ƒç´ ï¼ˆæ¡ç›®ï¼‰æ€»ä¸ªæ•°ä¸è¶…è¿‡è®¾å®šæ•°é‡æ—¶ï¼Œé‡‡ç”¨çº¿æ€§ç´§å‡‘æ ¼å¼å­˜å‚¨æ¥èŠ‚çœç©ºé—´
+hash-max-zipmap-value 64     #å“ˆå¸Œè¡¨ä¸­æ¯ä¸ªvalueçš„é•¿åº¦ä¸è¶…è¿‡å¤šå°‘å­—èŠ‚æ—¶ï¼Œé‡‡ç”¨çº¿æ€§ç´§å‡‘æ ¼å¼å­˜å‚¨æ¥èŠ‚çœç©ºé—´
+list-max-ziplist-entries 512  #listæ•°æ®ç±»å‹å¤šå°‘èŠ‚ç‚¹ä»¥ä¸‹ä¼šé‡‡ç”¨å»æŒ‡é’ˆçš„ç´§å‡‘å­˜å‚¨æ ¼å¼
+list-max-ziplist-value 64    #listæ•°æ®ç±»å‹èŠ‚ç‚¹å€¼å¤§å°å°äºå¤šå°‘å­—èŠ‚ä¼šé‡‡ç”¨ç´§å‡‘å­˜å‚¨æ ¼å¼
+set-max-intset-entries 512   #setæ•°æ®ç±»å‹å†…éƒ¨æ•°æ®å¦‚æœå…¨éƒ¨æ˜¯æ•°å€¼å‹ï¼Œä¸”åŒ…å«å¤šå°‘èŠ‚ç‚¹ä»¥ä¸‹ä¼šé‡‡ç”¨ç´§å‡‘æ ¼å¼å­˜å‚¨
+activerehashing yes        #æ˜¯å¦æ¿€æ´»é‡ç½®å“ˆå¸Œ
 ```
 
 
 
-## ·şÎñ¶Ë³£ÓÃÃüÁî
+## æœåŠ¡ç«¯å¸¸ç”¨å‘½ä»¤
 
 ```shell
-time ·µ»ØÊ±¼ä´Á+Î¢Ãë
-dbsize ·µ»ØkeyµÄÊıÁ¿
-bgrewriteaof ÖØĞ´aof
-bgsave ºóÌ¨¿ªÆô×Ó½ø³ÌdumpÊı¾İ
-save ×èÈû½ø³ÌdumpÊı¾İ
+time è¿”å›æ—¶é—´æˆ³+å¾®ç§’
+dbsize è¿”å›keyçš„æ•°é‡
+bgrewriteaof é‡å†™aof
+bgsave åå°å¼€å¯å­è¿›ç¨‹dumpæ•°æ®
+save é˜»å¡è¿›ç¨‹dumpæ•°æ®
 lastsave
 
-slaveof host port ×öhost portµÄ´Ó·şÎñÆ÷(Êı¾İÇå¿Õ,¸´ÖÆĞÂÖ÷ÄÚÈİ)
-slaveof no one ±ä³ÉÖ÷·şÎñÆ÷(Ô­Êı¾İ²»¶ªÊ§,Ò»°ãÓÃÓÚÖ÷·şÊ§°Üºó)
+slaveof host port åšhost portçš„ä»æœåŠ¡å™¨(æ•°æ®æ¸…ç©º,å¤åˆ¶æ–°ä¸»å†…å®¹)
+slaveof no one å˜æˆä¸»æœåŠ¡å™¨(åŸæ•°æ®ä¸ä¸¢å¤±,ä¸€èˆ¬ç”¨äºä¸»æœå¤±è´¥å)
 
-flushdb Çå¿Õµ±Ç°Êı¾İ¿âµÄËùÓĞÊı¾İ
-flushall Çå¿ÕËùÓĞÊı¾İ¿âµÄËùÓĞÊı¾İ(ÎóÓÃÁËÔõÃ´°ì?)
+flushdb æ¸…ç©ºå½“å‰æ•°æ®åº“çš„æ‰€æœ‰æ•°æ®
+flushall æ¸…ç©ºæ‰€æœ‰æ•°æ®åº“çš„æ‰€æœ‰æ•°æ®(è¯¯ç”¨äº†æ€ä¹ˆåŠ?)
 
-shutdown [save/nosave] ¹Ø±Õ·şÎñÆ÷,±£´æÊı¾İ,ĞŞ¸ÄAOF(Èç¹ûÉèÖÃ)
+shutdown [save/nosave] å…³é—­æœåŠ¡å™¨,ä¿å­˜æ•°æ®,ä¿®æ”¹AOF(å¦‚æœè®¾ç½®)
 
-slowlog get »ñÈ¡Âı²éÑ¯ÈÕÖ¾
-slowlog len »ñÈ¡Âı²éÑ¯ÈÕÖ¾ÌõÊı
-slowlog reset Çå¿ÕÂı²éÑ¯
+slowlog get è·å–æ…¢æŸ¥è¯¢æ—¥å¿—
+slowlog len è·å–æ…¢æŸ¥è¯¢æ—¥å¿—æ¡æ•°
+slowlog reset æ¸…ç©ºæ…¢æŸ¥è¯¢
 
 
 info []
 
-config get Ñ¡Ïî(Ö§³Ö*Í¨Åä)
-config set Ñ¡Ïî Öµ
-config rewrite °ÑÖµĞ´µ½ÅäÖÃÎÄ¼ş
-config restart ¸üĞÂinfoÃüÁîµÄĞÅÏ¢
+config get é€‰é¡¹(æ”¯æŒ*é€šé…)
+config set é€‰é¡¹ å€¼
+config rewrite æŠŠå€¼å†™åˆ°é…ç½®æ–‡ä»¶
+config restart æ›´æ–°infoå‘½ä»¤çš„ä¿¡æ¯
 
-debug object key #µ÷ÊÔÑ¡Ïî,¿´Ò»¸ökeyµÄÇé¿ö
-debug segfault #Ä£Äâ¶Î´íÎó,ÈÃ·şÎñÆ÷±ÀÀ£
+debug object key #è°ƒè¯•é€‰é¡¹,çœ‹ä¸€ä¸ªkeyçš„æƒ…å†µ
+debug segfault #æ¨¡æ‹Ÿæ®µé”™è¯¯,è®©æœåŠ¡å™¨å´©æºƒ
 object key (refcount|encoding|idletime)
-monitor #´ò¿ª¿ØÖÆÌ¨,¹Û²ìÃüÁî(µ÷ÊÔÓÃ)
-client list #ÁĞ³öËùÓĞÁ¬½Ó
-client kill #É±ËÀÄ³¸öÁ¬½Ó CLIENT KILL 127.0.0.1:43501
-client getname #»ñÈ¡Á¬½ÓµÄÃû³Æ Ä¬ÈÏnil
-client setname "Ãû³Æ" #ÉèÖÃÁ¬½ÓÃû³Æ,±ãÓÚµ÷ÊÔ
+monitor #æ‰“å¼€æ§åˆ¶å°,è§‚å¯Ÿå‘½ä»¤(è°ƒè¯•ç”¨)
+client list #åˆ—å‡ºæ‰€æœ‰è¿æ¥
+client kill #æ€æ­»æŸä¸ªè¿æ¥ CLIENT KILL 127.0.0.1:43501
+client getname #è·å–è¿æ¥çš„åç§° é»˜è®¤nil
+client setname "åç§°" #è®¾ç½®è¿æ¥åç§°,ä¾¿äºè°ƒè¯•
 ```
 
 
-## Á¬½ÓÃüÁî
+## è¿æ¥å‘½ä»¤
 
 ```shell
-auth ÃÜÂë #ÃÜÂëµÇÂ½(Èç¹ûÓĞÃÜÂë)
-ping #²âÊÔ·şÎñÆ÷ÊÇ·ñ¿ÉÓÃ
-echo "some content" #²âÊÔ·şÎñÆ÷ÊÇ·ñÕı³£½»»¥
-select 0/1/2... #Ñ¡ÔñÊı¾İ¿â
-quit #ÍË³öÁ¬½Ó
+auth å¯†ç  #å¯†ç ç™»é™†(å¦‚æœæœ‰å¯†ç )
+ping #æµ‹è¯•æœåŠ¡å™¨æ˜¯å¦å¯ç”¨
+echo "some content" #æµ‹è¯•æœåŠ¡å™¨æ˜¯å¦æ­£å¸¸äº¤äº’
+select 0/1/2... #é€‰æ‹©æ•°æ®åº“
+quit #é€€å‡ºè¿æ¥
 ```
 
-## ³Ö¾Ã»¯·½Ê½
+## æŒä¹…åŒ–æ–¹å¼
 
-### redisÌá¹©¼¸ÖÖ³Ö¾Ã»¯»úÖÆ
+### redisæä¾›å‡ ç§æŒä¹…åŒ–æœºåˆ¶
 
 ```shell
 
- a). RDB³Ö¾Ã»¯
+ a). RDBæŒä¹…åŒ–
 
- ¹¤×÷·½Ê½ £º¸ù¾İÊ±¼äµÄ¼ä¸ô½«redisÖĞÊı¾İ¿ìÕÕ£¨dump£©µ½dump.rdbÎÄ¼ş
+ å·¥ä½œæ–¹å¼ ï¼šæ ¹æ®æ—¶é—´çš„é—´éš”å°†redisä¸­æ•°æ®å¿«ç…§ï¼ˆdumpï¼‰åˆ°dump.rdbæ–‡ä»¶
 
- ÓÅÊÆ £º±¸·İ»Ö¸´¼òµ¥¡£RDBÍ¨¹ı×Ó½ø³ÌÍê³É³Ö¾Ã»¯¹¤×÷£¬Ïà¶Ô±ÈAOFÆô¶¯Ğ§ÂÊ¸ß
+ ä¼˜åŠ¿ ï¼šå¤‡ä»½æ¢å¤ç®€å•ã€‚RDBé€šè¿‡å­è¿›ç¨‹å®ŒæˆæŒä¹…åŒ–å·¥ä½œï¼Œç›¸å¯¹æ¯”AOFå¯åŠ¨æ•ˆç‡é«˜
 
- ÁÓÊÆ £º·şÎñÆ÷¹ÊÕÏ»á¶ªÊ§¼¸·ÖÖÓÄÚµÄÊı¾İ
+ åŠ£åŠ¿ ï¼šæœåŠ¡å™¨æ•…éšœä¼šä¸¢å¤±å‡ åˆ†é’Ÿå†…çš„æ•°æ®
 
- b). AOF³Ö¾Ã»¯
+ b). AOFæŒä¹…åŒ–
 
- ¹¤×÷·½Ê½ £ºÒÔÈÕÖ¾µÄĞÎÊ½¼ÇÂ¼ËùÓĞ¸üĞÂ²Ù×÷µ½AOFÈÕÖ¾ÎÄ¼ş£¬ÔÚredis·şÎñÖØĞÂÆô¶¯Ê±»á¶ÁÈ¡¸ÃÈÕÖ¾ÎÄ ¼şÀ´ÖØĞÂ¹¹½¨Êı¾İ¿â£¬ÒÔ±£Ö¤Æô¶¯ºóÊı¾İÍêÕûĞÔ¡£
+ å·¥ä½œæ–¹å¼ ï¼šä»¥æ—¥å¿—çš„å½¢å¼è®°å½•æ‰€æœ‰æ›´æ–°æ“ä½œåˆ°AOFæ—¥å¿—æ–‡ä»¶ï¼Œåœ¨redisæœåŠ¡é‡æ–°å¯åŠ¨æ—¶ä¼šè¯»å–è¯¥æ—¥å¿—æ–‡ ä»¶æ¥é‡æ–°æ„å»ºæ•°æ®åº“ï¼Œä»¥ä¿è¯å¯åŠ¨åæ•°æ®å®Œæ•´æ€§ã€‚
 
- ÓÅÊÆ £ºAOFÌá¹©Á½ÖÖÍ¬²½»úÖÆ£¬Ò»¸öÊÇfsync alwaysÃ¿´ÎÓĞÊı¾İ±ä»¯¾ÍÍ¬²½µ½ÈÕÖ¾ÎÄ¼şºÍfsync everysecÃ¿ÃëÍ¬²½Ò»´Îµ½ÈÕÖ¾ÎÄ¼ş£¬×î´óÏŞ¶È±£Ö¤Êı¾İÍêÕûĞÔ¡£
+ ä¼˜åŠ¿ ï¼šAOFæä¾›ä¸¤ç§åŒæ­¥æœºåˆ¶ï¼Œä¸€ä¸ªæ˜¯fsync alwaysæ¯æ¬¡æœ‰æ•°æ®å˜åŒ–å°±åŒæ­¥åˆ°æ—¥å¿—æ–‡ä»¶å’Œfsync everysecæ¯ç§’åŒæ­¥ä¸€æ¬¡åˆ°æ—¥å¿—æ–‡ä»¶ï¼Œæœ€å¤§é™åº¦ä¿è¯æ•°æ®å®Œæ•´æ€§ã€‚
 
- ÁÓÊÆ£ºÈÕÖ¾ÎÄ¼şÏà¶ÔRDB¿ìÕÕÎÄ¼şÒª´óµÄ¶à
+ åŠ£åŠ¿ï¼šæ—¥å¿—æ–‡ä»¶ç›¸å¯¹RDBå¿«ç…§æ–‡ä»¶è¦å¤§çš„å¤š
 
- AOFÈÕÖ¾ÖØĞ´¹¦ÄÜ £ºAOFÈÕÖ¾ÎÄ¼ş¹ı´ó£¬redis»á×Ô¶¯ÖØĞ´AOFÈÕÖ¾£¬appendÄ£Ê½²»¶ÏµÄ½«¸üĞÂ¼ÇÂ¼Ğ´Èëµ½ÀÏÈÕÖ¾ÎÄ¼şÖĞ£¬Í¬Ê±redis»¹»á´´½¨Ò»¸öĞÂµÄÈÕÖ¾ÎÄ¼şÓÃÓÚ×·¼ÓºóĞøµÄ¼ÇÂ¼¡£
+ AOFæ—¥å¿—é‡å†™åŠŸèƒ½ ï¼šAOFæ—¥å¿—æ–‡ä»¶è¿‡å¤§ï¼Œredisä¼šè‡ªåŠ¨é‡å†™AOFæ—¥å¿—ï¼Œappendæ¨¡å¼ä¸æ–­çš„å°†æ›´æ–°è®°å½•å†™å…¥åˆ°è€æ—¥å¿—æ–‡ä»¶ä¸­ï¼ŒåŒæ—¶redisè¿˜ä¼šåˆ›å»ºä¸€ä¸ªæ–°çš„æ—¥å¿—æ–‡ä»¶ç”¨äºè¿½åŠ åç»­çš„è®°å½•ã€‚
 
- c). Í¬Ê±Ó¦ÓÃAOFºÍRDB
+ c). åŒæ—¶åº”ç”¨AOFå’ŒRDB
 
- ¶ÔÓÚÊı¾İ°²È«ĞÔ¸ßµÄ³¡¾°£¬¿ÉÍ¬Ê±Ê¹ÓÃAOFºÍRDB£¬ÕâÑù»á½µµÍĞÔÄÜ¡£
+ å¯¹äºæ•°æ®å®‰å…¨æ€§é«˜çš„åœºæ™¯ï¼Œå¯åŒæ—¶ä½¿ç”¨AOFå’ŒRDBï¼Œè¿™æ ·ä¼šé™ä½æ€§èƒ½ã€‚
 
- d). ÎŞ³Ö¾Ã»¯
+ d). æ— æŒä¹…åŒ–
 
- ½ûÓÃredis·şÎñ³Ö¾Ã»¯¹¦ÄÜ¡£
+ ç¦ç”¨redisæœåŠ¡æŒä¹…åŒ–åŠŸèƒ½ã€‚
 ```
 
-### AOFÈÕÖ¾ÎÄ¼ş³ö´íºó£¬ĞŞ¸´·½·¨ 
+### AOFæ—¥å¿—æ–‡ä»¶å‡ºé”™åï¼Œä¿®å¤æ–¹æ³• 
 
 ```shell
-redis-check-aof --fix appendonly.aof  #--fix²ÎÊıÎªĞŞ¸´ÈÕÖ¾ÎÄ¼ş£¬²»¼ÓÔò¶ÔÈÕÖ¾¼ì²é
+redis-check-aof --fix appendonly.aof  #--fixå‚æ•°ä¸ºä¿®å¤æ—¥å¿—æ–‡ä»¶ï¼Œä¸åŠ åˆ™å¯¹æ—¥å¿—æ£€æŸ¥
 ```
 
-### ²»ÖØÆôredis´ÓRDB³Ö¾Ã»¯ÇĞ»»µ½AOF³Ö¾Ã»¯ £º
+### ä¸é‡å¯redisä»RDBæŒä¹…åŒ–åˆ‡æ¢åˆ°AOFæŒä¹…åŒ– ï¼š
 
 ```shell
-redis-cli> CONFIG SET appendonly yes      #ÆôÓÃAOF
-redis-cli> CONFIG SET save ""         #¹Ø±ÕRDB
+redis-cli> CONFIG SET appendonly yes      #å¯ç”¨AOF
+redis-cli> CONFIG SET save ""         #å…³é—­RDB
 ```
 
+### å¸¸ç”¨æ–¹æ³•
+
+```shell
+1. redisæŸ¥çœ‹å½“å‰æ‰€æœ‰çš„key
+
+å¤åˆ¶ä»£ç ä»£ç å¦‚ä¸‹:
+
+KEYS *
+
+2. æŸ¥çœ‹å½“å‰redisçš„é…ç½®ä¿¡æ¯
+å¤åˆ¶ä»£ç ä»£ç å¦‚ä¸‹:
+
+CONFIG GET *
+
+3. MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
+å¼ºåˆ¶åœæ­¢rediså¿«ç…§å¯¼è‡´ï¼Œredisè¿è¡Œç”¨æˆ·æ²¡æœ‰æƒé™å†™rdbæ–‡ä»¶æˆ–è€…ç£ç›˜ç©ºé—´æ»¡äº†ï¼Œè§£å†³åŠæ³•ï¼š
+å¤åˆ¶ä»£ç ä»£ç å¦‚ä¸‹:
+
+config set stop-writes-on-bgsave-error no
+
+ä¾‹å¦‚ï¼š
+å¤åˆ¶ä»£ç ä»£ç å¦‚ä¸‹:
+
+set 'name' 'shenhui'
+-MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
+config set stop-writes-on-bgsave-error no
++OK
+set 'name' 'shenhui'
++OK
+
+4. redis 127.0.0.1:6379> CONFIG SET logfile "/var/log/redis/redis-server.log"
+(error) ERR Unsupported CONFIG parameter: logfile
+logfile ä¸èƒ½é€šè¿‡setåŠ¨æ€è®¾ç½®
+
+5.(error) OOM command not allowed when used memory >
+è®¾ç½®äº†maxmemoryçš„é€‰é¡¹,rediså†…å­˜ä½¿ç”¨è¾¾åˆ°ä¸Šé™ã€‚
+å¯ä»¥é€šè¿‡è®¾ç½®LRUç®—æ³•æ¥åˆ é™¤éƒ¨åˆ†key,é‡Šæ”¾ç©ºé—´ã€‚
+é»˜è®¤æ˜¯æŒ‰ç…§è¿‡æœŸæ—¶é—´çš„,å¦‚æœsetæ—¶å€™æ²¡æœ‰åŠ ä¸Šè¿‡æœŸæ—¶é—´å°±ä¼šå¯¼è‡´æ•°æ®å†™æ»¡maxmemoryã€‚
+å¦‚æœä¸è®¾ç½®maxmemoryæˆ–è€…è®¾ç½®ä¸º0 64ä½ç³»ç»Ÿä¸é™åˆ¶å†…å­˜ï¼Œ32ä½ç³»ç»Ÿæœ€å¤šä½¿ç”¨3GBå†…å­˜ã€‚
+
+volatile-lru -> æ ¹æ®LRUç®—æ³•ç”Ÿæˆçš„è¿‡æœŸæ—¶é—´æ¥åˆ é™¤ã€‚
+allkeys-lru -> æ ¹æ®LRUç®—æ³•åˆ é™¤ä»»ä½•keyã€‚
+volatile-random -> æ ¹æ®è¿‡æœŸè®¾ç½®æ¥éšæœºåˆ é™¤keyã€‚
+allkeys->random -> æ— å·®åˆ«éšæœºåˆ ã€‚
+volatile-ttl -> æ ¹æ®æœ€è¿‘è¿‡æœŸæ—¶é—´æ¥åˆ é™¤ï¼ˆè¾…ä»¥TTLï¼‰
+noeviction -> è°ä¹Ÿä¸åˆ ï¼Œç›´æ¥åœ¨å†™æ“ä½œæ—¶è¿”å›é”™è¯¯ã€‚
+
+6. reidsæ—¥å¿—ä½ç½®
+
+logfile æ—¥å¿—è®°å½•æ–¹å¼ï¼Œé»˜è®¤å€¼ä¸ºstdoutï¼Œå¦‚æœè®¾ç½®ä¸ºstdoutä¸”ä»¥å®ˆæŠ¤è¿›ç¨‹æ–¹å¼è¿è¡Œï¼Œé‚£ä¹ˆæ—¥å¿—ä¼šè¢«é‡å®šå‘åˆ°/dev/null,ä¹Ÿå°±æ˜¯ä¸è®°æ—¥å¿—
+```
 
 
 
